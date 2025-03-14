@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-6">
+        <div>
+          <apx-chart
+            #chartTemperature
+            [series]="chartOptionsTemperature.series"
+            [chart]="chartOptionsTemperature.chart"
+            [labels]="chartOptionsTemperature.labels"
+            [plotOptions]="chartOptionsTemperature.plotOptions">
+          </apx-chart>
+        </div>
+    </div>
+    <div class="col-6">
+        <div>
+          <apx-chart
+            #chartHumidity
+            [series]="chartOptionsHumidity.series"
+            [chart]="chartOptionsHumidity.chart"
+            [labels]="chartOptionsHumidity.labels"
+            [plotOptions]="chartOptionsHumidity.plotOptions">
+          </apx-chart>
+        </div>
+    </div>
+    <div class="col-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Temperatura</th>
+            <th scope="col">Humedad</th>
+            <th scope="col">Fecha y hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of temfive; let i = index">
+            <th scope="col">{{ i + 1 }}</th>
+            <td>{{ item.temperatura }}°C</td>
+            <td>{{ item.humedad }}%</td>
+            <td>{{ item.fecha_hora }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
