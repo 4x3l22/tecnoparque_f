@@ -1,0 +1,22 @@
+<div class="container">
+  <h2>Crear Cuenta</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="correo">Correo Electrónico</label>
+      <input type="email" id="correo" [(ngModel)]="correo" name="correo" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="contrasena">Contraseña</label>
+      <input type="password" id="contrasena" [(ngModel)]="contrasena" name="contrasena" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="confirmarContrasena">Confirmar Contraseña</label>
+      <input type="password" id="confirmarContrasena" [(ngModel)]="confirmarContrasena" name="confirmarContrasena" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Crear Cuenta</button>
+  </form>
+</div>

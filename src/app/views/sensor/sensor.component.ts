@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from "@angular/core";
+import { Component, ViewChild, AfterViewInit } from "@angular/core";
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -27,7 +27,7 @@ export type ChartOptions = {
   templateUrl: './sensor.component.html',
   styleUrls: ['./sensor.component.css']
 })
-export class SensorComponent implements OnInit {
+export class SensorComponent implements AfterViewInit {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions: ChartOptions; 
 
@@ -58,7 +58,8 @@ export class SensorComponent implements OnInit {
     };
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    console.log("Cargando gráfico...");
     this.load();
   }
 
@@ -66,7 +67,11 @@ export class SensorComponent implements OnInit {
     this.service.list().subscribe({
       next: (data: ITemperaturas[]) => {
         this.temperaturas = data;
+        console.log("Datos recibidos:", this.temperaturas);
         this.updateChart();
+      },
+      error: (err) => {
+        console.error("Error al cargar datos:", err);
       }
     });
   }
@@ -75,40 +80,39 @@ export class SensorComponent implements OnInit {
     const oneYearAgo = new Date();
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 
-    // Filtrar los datos para incluir solo los del último año
     const filteredData = this.temperaturas.filter(item => new Date(item.fecha_hora) >= oneYearAgo);
 
-    // Extraer las fechas y los valores de temperatura y humedad
     const fechas = filteredData.map(item => new Date(item.fecha_hora).getTime());
     const temperaturas = filteredData.map(item => item.temperatura);
     const humedades = filteredData.map(item => item.humedad);
 
-    // Actualizar las opciones de la gráfica
-    this.chartOptions.series = [
-      {
-        name: "Temperatura",
-        data: temperaturas
-      },
-      {
-        name: "Humedad",
-        data: humedades
+    console.log("Fechas (timestamps):", fechas);
+    console.log("Temperaturas:", temperaturas);
+    console.log("Humedades:", humedades);
+
+    this.chartOptions = {
+      ...this.chartOptions,
+      series: [
+        {
+          name: "Temperatura",
+          data: temperaturas
+        },
+        {
+          name: "Humedad",
+          data: humedades
+        }
+      ],
+      xaxis: {
+        ...this.chartOptions.xaxis,
+        categories: fechas
       }
-    ];
-    this.chartOptions.xaxis.categories = fechas;
-  }
+    };
 
-  public generateData(baseval: number, count: number, yrange: { min: number; max: number }): [number, number, number][] {
-    let i = 0;
-    const series: [number, number, number][] = [];
-    while (i < count) {
-      const x = Math.floor(Math.random() * (750 - 1 + 1)) + 1;
-      const y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-      const z = Math.floor(Math.random() * (75 - 15 + 1)) + 15;
-
-      series.push([x, y, z]);
-      baseval += 86400000;
-      i++;
-    }
-    return series;
+    // Fuerza un redibujado para asegurar que los cambios se reflejen
+    setTimeout(() => {
+      if (this.chart) {
+        this.chart.updateOptions(this.chartOptions);
+      }
+    }, 100);
   }
 }

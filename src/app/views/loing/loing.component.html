@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="header">Agent Login</div>
+    <div class="sub-header">Hey, Enter your details to get sign in to your account</div>
+    <form (ngSubmit)="login()">
+      <div class="form-group">
+        <input type="email" [(ngModel)]="correo" [ngModelOptions]="{standalone:true}" placeholder="Enter Email / Phone No" required>
+      </div>
+      <div class="form-group">
+        <input type="password" [(ngModel)]="contrasena" [ngModelOptions]="{standalone:true}" placeholder="Passcode" required>
+      </div>
+      <div (click)="navigateto('crearcuenta')" class="form-link">Having trouble in signing in?</div>
+      <button type="submit" class="btn">Sign In</button>
+    </form>
+</div>

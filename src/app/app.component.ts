@@ -13,7 +13,7 @@ import { MindashboardComponent } from "./views/mindashboard/mindashboard.compone
 
 @Component({
   selector: 'app-root',
-  imports: [NgApexchartsModule, TemperaturasComponent, SensorComponent, MindashboardComponent],
+  imports: [NgApexchartsModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
