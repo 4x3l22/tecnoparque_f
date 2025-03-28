@@ -6,12 +6,12 @@ import { Injectable } from '@angular/core';
 })
 export class CrearcuentaService {
 
-  private url = "http://127.0.0.1:5000/api/proceso/";
-  // private url = "https://tecnoparque-back.onrender.com/api/proceso/";
+  // private url = "http://127.0.0.1:5000";
+  private url = "https://tecnoparque-back-f7ch.onrender.com";
 
   constructor(private http: HttpClient) { }
 
   post(data: any) {
-    return this.http.post(`${this.url}crearcuenta`, data);
+    return this.http.post(`${this.url}/register`, data);
   }
 }

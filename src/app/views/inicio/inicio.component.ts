@@ -11,4 +11,9 @@ import { TemperaturasComponent } from "../temperaturas/temperaturas.component";
 })
 export class InicioComponent {
 
+  // Función para borrar la clave 'user' del localStorage
+  clearUser() {
+    localStorage.removeItem('user');
+    console.log('Clave "user" eliminada del localStorage');
+  }
 }

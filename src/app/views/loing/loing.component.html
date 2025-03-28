@@ -1,14 +1,41 @@
-<div class="container">
-    <div class="header">Agent Login</div>
-    <div class="sub-header">Hey, Enter your details to get sign in to your account</div>
-    <form (ngSubmit)="login()">
-      <div class="form-group">
-        <input type="email" [(ngModel)]="correo" [ngModelOptions]="{standalone:true}" placeholder="Enter Email / Phone No" required>
-      </div>
-      <div class="form-group">
-        <input type="password" [(ngModel)]="contrasena" [ngModelOptions]="{standalone:true}" placeholder="Passcode" required>
-      </div>
-      <div (click)="navigateto('crearcuenta')" class="form-link">Having trouble in signing in?</div>
-      <button type="submit" class="btn">Sign In</button>
-    </form>
+<div class="container d-flex align-items-center justify-content-center vh-100">
+  <div class="card p-4 shadow-lg" style="max-width: 400px; width: 100%;">
+    <div class="card-body">
+      <h1 class="text-center mb-3">Proyectos IOT</h1>
+      <h2 class="text-center mb-2">Bienvenido</h2>
+      <p class="text-center text-muted mb-4">
+        Hey, ingresa tus datos para acceder a tu cuenta
+      </p>
+      <form (ngSubmit)="login()">
+        <div class="form-group mb-3">
+          <input
+            type="email"
+            [(ngModel)]="correo"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control"
+            placeholder="Ingresa tu correo o número de teléfono"
+            required
+          />
+        </div>
+        <div class="form-group mb-3">
+          <input
+            type="password"
+            [(ngModel)]="contrasena"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control"
+            placeholder="Contraseña"
+            required
+          />
+        </div>
+        <div
+          (click)="navigateto('crearcuenta')"
+          class="form-text text-primary text-center mb-3"
+          style="cursor: pointer;"
+        >
+          ¿No tienes cuenta? <a (click)="navigateto('crearcuenta')" class="text-primary" style="text-decoration: underline;">Regístrate</a>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+      </form>
+    </div>
+  </div>
 </div>

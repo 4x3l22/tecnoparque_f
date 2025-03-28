@@ -1,60 +1,64 @@
-<hr>
-
-<div class="container">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1>Tabla de contenido</h1>
-    <div class="piker">
-      
-      <form class="d-flex justify-content-between align-items-center" [formGroup]="dateRangeForm">
-        <mat-form-field>
-          <mat-label>Ingresa el rango de fechas</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate formControlName="formattedStart" placeholder="Start date">
-            <input matEndDate formControlName="formattedEnd" placeholder="End date">
-          </mat-date-range-input>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-        </mat-form-field>
-      
-        <button class="btn btn-primary" type="button" (click)="getSelectedDateRange()">Filtrar</button>
-      </form>
-
-    </div>
-    <button class="btn btn-success" (click)="exportToExcel()">Descargar</button>
+<div class="container my-4">
+  <!-- Título y descripción -->
+  <div class="text-center mb-4">
+    <h1 class="display-5">Registro de Temperaturas y Humedad</h1>
+    <p class="text-muted">
+      Explora los datos registrados, filtra por rango de fechas y descarga el reporte en formato Excel. La tabla es completamente interactiva y ajustada para cualquier pantalla.
+    </p>
   </div>
 
-  <div class="mat-elevation-z8">
-    <table id="taba_temperatura" mat-table [dataSource]="dataSource">
-  
+  <!-- Filtros y acciones -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+    <!-- Formulario de rango de fechas -->
+    <form class="d-flex flex-wrap align-items-center mb-3 mb-md-0" [formGroup]="dateRangeForm">
+      <mat-form-field class="me-2" appearance="outline">
+        <mat-label>Rango de Fechas</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate formControlName="formattedStart" placeholder="Fecha Inicio">
+          <input matEndDate formControlName="formattedEnd" placeholder="Fecha Fin">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+      <button class="btn btn-primary ms-2" type="button" (click)="getSelectedDateRange()">Filtrar</button>
+    </form>
+
+    <!-- Botón de exportar -->
+    <button class="btn btn-success" (click)="exportToExcel()">Descargar Datos</button>
+  </div>
+
+  <!-- Tabla de contenido -->
+  <div class="table-responsive mat-elevation-z8">
+    <table id="taba_temperatura" mat-table [dataSource]="dataSource" class="table table-hover">
+      <!-- No. -->
       <ng-container matColumnDef="numero">
         <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element let num = index"> {{num + 1}} </td>
+        <td mat-cell *matCellDef="let element; let num = index"> {{ num + 1 }} </td>
       </ng-container>
 
+      <!-- Temperatura -->
       <ng-container matColumnDef="temperatura">
         <th mat-header-cell *matHeaderCellDef> Temperatura </th>
-        <td mat-cell *matCellDef="let element"> {{`${element.temperatura} °C`}} </td>
+        <td mat-cell *matCellDef="let element"> {{ `${element.temperatura} °C` }} </td>
       </ng-container>
-      
+
+      <!-- Humedad -->
       <ng-container matColumnDef="humedad">
         <th mat-header-cell *matHeaderCellDef> Humedad </th>
-        <td mat-cell *matCellDef="let element"> {{`${element.humedad}%`}} </td>
+        <td mat-cell *matCellDef="let element"> {{ `${element.humedad}%` }} </td>
       </ng-container>
-      
+
+      <!-- Fecha y hora -->
       <ng-container matColumnDef="fecha_hora">
-        <th mat-header-cell *matHeaderCellDef> Fecha y hora </th>
-        <td mat-cell *matCellDef="let element"> {{element.fecha_hora}} </td>
+        <th mat-header-cell *matHeaderCellDef> Fecha y Hora </th>
+        <td mat-cell *matCellDef="let element"> {{ element.fecha_hora | date:'short' }} </td>
       </ng-container>
-      
-  
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-  
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                   showFirstLastButtons
-                   aria-label="Select page of periodic elements">
-    </mat-paginator>
   </div>
-  
+
+  <!-- Paginador -->
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of data"></mat-paginator>
 </div>
