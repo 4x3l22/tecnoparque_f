@@ -34,7 +34,7 @@ export class LoingComponent {
 
           // Redirige a la ruta `/start`
           console.log('Redirigiendo a /start'); // Depuración
-          this.router.navigate(['start/inicio']);
+          this.router.navigate(['start/proyectos']);
         } else {
           this.mensajeError = 'Error en la autenticación. Respuesta inesperada.';
         }

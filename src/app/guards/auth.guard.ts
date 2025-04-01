@@ -18,18 +18,12 @@ export const authGuard: CanActivateFn = (route, state) => {
       return false;
     }
 
-    // Si la ruta es 'start', permite el acceso
-    if (route.routeConfig?.path === 'start') {
+    // Si el usuario está autenticado, permite el acceso
+    if (route.routeConfig?.path === 'start/proyectos') {
       return true;
     }
-    
-    setInterval(() => {
-      const token = localStorage.getItem('user');
-      if (!token) {
-        router.navigate(['/login']);
-      }
-    }, 100);
 
+    // Si el usuario no está en la ruta 'start', también lo redirigimos
     console.log('Acceso denegado. Redirigiendo a login...');
     router.navigate(['/login']);
     return false;

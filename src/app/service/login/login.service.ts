@@ -7,8 +7,8 @@ import { Observable, tap, catchError, throwError } from 'rxjs';
 })
 export class LoginService {
 
-  // private url = "http://127.0.0.1:5000/login";
-  private url = "https://tecnoparque-back-f7ch.onrender.com/login";
+  private url = "http://127.0.0.1:5000/login";
+  // private url = "https://tecnoparque-back-f7ch.onrender.com/login";
   private userKey = 'user';
 
   constructor(private http: HttpClient) { }
@@ -22,9 +22,10 @@ export class LoginService {
     return this.http.post<any>(this.url, body, { headers })
       .pipe(
         tap(response => {
-          if (response && response.success) {
+          // Si la respuesta tiene un id, guardamos en localStorage
+          if (response && response.id) {
             if (this.isBrowser()) {
-              localStorage.setItem(this.userKey, JSON.stringify(response, null, 2));
+              localStorage.setItem(this.userKey, JSON.stringify(response));
             }
           }
         }),
@@ -32,9 +33,9 @@ export class LoginService {
           console.error('Error en la solicitud de inicio de sesión:', error);
           return throwError(() => new Error(error.message || 'Error en el servidor'));
         })
-      );
+    );
   }
-
+  
   logOut(): void {
     if (this.isBrowser()) {
       localStorage.removeItem(this.userKey);

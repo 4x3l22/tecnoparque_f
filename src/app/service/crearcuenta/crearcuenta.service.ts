@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 })
 export class CrearcuentaService {
 
-  // private url = "http://127.0.0.1:5000";
-  private url = "https://tecnoparque-back-f7ch.onrender.com";
+  private url = "http://127.0.0.1:5000";
+  // private url = "https://tecnoparque-back-f7ch.onrender.com";
 
   constructor(private http: HttpClient) { }
 

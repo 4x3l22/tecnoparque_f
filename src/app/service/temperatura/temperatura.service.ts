@@ -8,8 +8,8 @@ import { ITemperaturas } from '../interfaces/ITemperaturas';
 })
 export class TemperaturaService {
 
-  // private url = "http://127.0.0.1:5000/api/proceso/";
-  private url = "https://tecnoparque-back-f7ch.onrender.com/api/proceso/";
+  private url = "http://127.0.0.1:5000/api/proceso/";
+  // private url = "https://tecnoparque-back-f7ch.onrender.com/api/proceso/";
 
   constructor(private http: HttpClient) { }
 
