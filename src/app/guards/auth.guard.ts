@@ -6,11 +6,11 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const service = inject(LoginService);
 
-  const isBrowser = typeof window !== 'undefined' && typeof localStorage !== 'undefined'; // Verifica si está en el navegador
+  const isBrowser = typeof window !== 'undefined' && typeof localStorage !== 'undefined';
 
   if (isBrowser) {
-    const user = service.getUser(); // Obtiene el usuario desde el servicio
-    const isLoggedIn = user !== null; // Verifica si el usuario está autenticado
+    const user = localStorage.getItem('user');
+    const isLoggedIn = user !== null;
 
     if (!isLoggedIn) {
       console.log('Usuario no autenticado. Redirigiendo a login...');
@@ -18,12 +18,10 @@ export const authGuard: CanActivateFn = (route, state) => {
       return false;
     }
 
-    // Si el usuario está autenticado, permite el acceso
-    if (route.routeConfig?.path === 'start/proyectos') {
+    if (route.routeConfig?.path === 'start') {
       return true;
     }
 
-    // Si el usuario no está en la ruta 'start', también lo redirigimos
     console.log('Acceso denegado. Redirigiendo a login...');
     router.navigate(['/login']);
     return false;
@@ -32,3 +30,4 @@ export const authGuard: CanActivateFn = (route, state) => {
     return false;
   }
 };
+

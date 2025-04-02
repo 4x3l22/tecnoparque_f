@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +10,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { TemperaturasComponent } from "./views/temperaturas/temperaturas.component";
 import { SensorComponent } from "./views/sensor/sensor.component";
 import { MindashboardComponent } from "./views/mindashboard/mindashboard.component";
+import { AuthWatcherService } from './service/AuthWatcher/auth-watcher.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,16 @@ import { MindashboardComponent } from "./views/mindashboard/mindashboard.compone
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'tecnoparque_f';
+
+  constructor(private authWatcher: AuthWatcherService) {}
+
+  ngOnInit() {
+    this.authWatcher.startWatching();
+  }
+
+  ngOnDestroy() {
+    this.authWatcher.stopWatching();
+  }
 }

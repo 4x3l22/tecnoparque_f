@@ -21,20 +21,13 @@ export class LoingComponent {
   login(): void {
     this.service.login(this.contrasena, this.correo).subscribe(
       (response) => {
-        console.log('Respuesta del servidor:', response); // Depuración
-
-        // Verifica si la respuesta contiene el array `ok` y extrae el ID
-        if (response.ok && response.ok.length > 0) {
-          const user = response.ok[0]; // Extrae el primer objeto del array `ok`
-          const userId = user.id; // Obtén el ID del usuario
-          console.log('ID del usuario:', userId);
-
-          // Guarda el usuario en el localStorage
-          localStorage.setItem('user', JSON.stringify(user));
-
-          // Redirige a la ruta `/start`
-          console.log('Redirigiendo a /start'); // Depuración
-          this.router.navigate(['start/proyectos']);
+  
+        if (response.id) { // Verifica si hay un ID en la respuesta
+          localStorage.setItem('user', JSON.stringify(response));
+  
+          setTimeout(() => {
+            this.router.navigate(['start/proyectos']);
+          }, 100);
         } else {
           this.mensajeError = 'Error en la autenticación. Respuesta inesperada.';
         }
@@ -44,7 +37,7 @@ export class LoingComponent {
         this.mensajeError = 'Error del servidor. Inténtalo de nuevo más tarde.';
       }
     );
-  }
+  }  
 
   navigateto(ruta: string) {
     this.router.navigate([ruta]);

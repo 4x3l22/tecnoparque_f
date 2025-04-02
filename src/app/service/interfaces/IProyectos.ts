@@ -4,4 +4,5 @@ export interface IProyectos {
     nombre_proyecto: string,
     ruta: string,
     descripcion: string,
+    img: string
 }

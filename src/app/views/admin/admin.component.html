@@ -1,0 +1,101 @@
+ <!-- Navbar -->
+ <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Proyectos IoT</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <button (click)="clearUser()" class="btn btn-danger">Cerrar Sesión</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenedor principal -->
+<div class="container mt-4">
+    <h2 class="text-center">Gestión de Proyectos</h2>
+
+    <!-- Botón para abrir el modal -->
+    <div class="text-center">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#proyectoModal">Registrar Nuevo Proyecto</button>
+    </div>
+
+    <hr>
+
+    <!-- Tabla de Proyectos -->
+    <h3 class="text-center mt-4">Proyectos Registrados</h3>
+    <table class="table table-striped mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Usuario</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let proyecto of proyectos let i = index">
+                <td>{{ i+1 }}</td>
+                <td>{{ proyecto.nombre_proyecto }}</td>
+                <td>{{ proyecto.descripcion }}</td>
+                <td>{{ proyecto.id_usuario }}</td>
+                <td>
+                    <img *ngIf="proyecto.img" [src]="proyecto.img" alt="Imagen del Proyecto" width="50">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>
+
+<!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="proyectoModal" tabindex="-1" aria-labelledby="proyectoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="proyectoModalLabel">Registrar Nuevo Proyecto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario de Registro -->
+                <form (ngSubmit)="registrarProyecto()">
+                    <div class="mb-3">
+                        <label for="nombreProyecto" class="form-label">Nombre del Proyecto</label>
+                        <input type="text" class="form-control" id="nombreProyecto" name="nombreProyecto" [(ngModel)]="nombreProyecto" [ngModelOptions]="{standalone: true}" required>
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" [(ngModel)]="descripcion" [ngModelOptions]="{standalone: true}" rows="3" required></textarea>
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="ruta" class="form-label">Ruta del Proyecto</label>
+                        <input type="text" class="form-control" id="ruta" name="ruta" [(ngModel)]="ruta" [ngModelOptions]="{standalone: true}" required>
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="usuario" class="form-label">Asignar Usuario</label>
+                        <select class="form-select" id="usuario" name="usuario" [(ngModel)]="usuarioId" [ngModelOptions]="{standalone: true}" required>
+                            <option value="">Seleccione un usuario...</option>
+                            <option *ngFor="let usuario of usuarios" [value]="usuario.id_usuario">
+                                {{ usuario.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="imagenProyecto" class="form-label">Imagen del Proyecto</label>
+                        <input type="file" class="form-control" id="imagenProyecto" (change)="seleccionarImagen($event)" required>
+                    </div>
+                
+                    <button type="submit" class="btn btn-primary">Registrar Proyecto</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
