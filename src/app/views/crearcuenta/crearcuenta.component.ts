@@ -21,19 +21,18 @@ export class CrearcuentaComponent {
     const nuevaCuenta = {
       nombre: this.nombre,
       correo: this.correo,
-      contrasena: this.contrasena
+      contrasena: this.contrasena,
+      rol: 'u' // Asignar rol por defecto como 'u'
     };
 
     this.service.post(nuevaCuenta).subscribe(
       (response) => {
+        debugger
         console.log('Registro exitoso:', response);
-        this.navigateTo('/login'); // Redirige a la página de inicio de sesión
-        // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
       },
       (error) => {
         alert('Error al registrar la cuenta. Por favor, inténtalo de nuevo.');
         console.error('Error al registrar la cuenta:', error);
-        // Aquí puedes mostrar un mensaje de error al usuario
       }
     );
   }

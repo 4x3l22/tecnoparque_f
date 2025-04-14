@@ -20,7 +20,9 @@ export class AuthWatcherService {
 
     this.checkInterval = setInterval(() => {
       const user = localStorage.getItem('user');
-      if (!user) {
+      const currentRoute = this.router.url; // Obtiene la ruta actual
+      //valida si nos enconttramos en esas rutas no os lleve al login
+      if (!user && currentRoute !== '/login' && currentRoute !== '/crearcuenta') {
         console.log('Sesión expirada. Redirigiendo a login...');
         this.router.navigate(['/login']);
       }

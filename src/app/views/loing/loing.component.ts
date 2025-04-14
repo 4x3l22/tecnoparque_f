@@ -21,13 +21,22 @@ export class LoingComponent {
   login(): void {
     this.service.login(this.contrasena, this.correo).subscribe(
       (response) => {
-  
         if (response.id) { // Verifica si hay un ID en la respuesta
-          localStorage.setItem('user', JSON.stringify(response));
-  
-          setTimeout(() => {
+          localStorage.setItem('user', JSON.stringify(response)); // Guarda el token en localStorage
+
+          // Verifica el rol del usuario
+          const rol = response.rol; 
+          if (rol === 'a') {
+            console.log('Usuario administrador. Redirigiendo a inicioadmin/admin...');
+            this.router.navigate(['inicioadmin/admin']);
+          } else if (rol === 'u') {
+            console.log('Usuario estándar. Redirigiendo a start...');
             this.router.navigate(['start/proyectos']);
-          }, 100);
+          } else {
+            console.error('Rol desconocido. Redirigiendo a login...');
+            this.mensajeError = 'Rol desconocido. Contacte al administrador.';
+            this.router.navigate(['/login']);
+          }
         } else {
           this.mensajeError = 'Error en la autenticación. Respuesta inesperada.';
         }

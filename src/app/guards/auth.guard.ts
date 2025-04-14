@@ -1,33 +1,47 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { LoginService } from '../service/login/login.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  const service = inject(LoginService);
 
   const isBrowser = typeof window !== 'undefined' && typeof localStorage !== 'undefined';
 
   if (isBrowser) {
-    const user = localStorage.getItem('user');
-    const isLoggedIn = user !== null;
+    const publicRoutes = ['login', 'crearcuenta']; // 🚀 Rutas que no necesitan autenticación
+    const currentRoute = route.routeConfig?.path || '';
 
-    if (!isLoggedIn) {
+    if (publicRoutes.includes(currentRoute)) {
+      return true; // ✅ Permitir acceso a estas rutas sin autenticación
+    }
+
+    const user = localStorage.getItem('user');
+    if (user) {
+      try {
+        const parsedUser = JSON.parse(user);
+        const rol = parsedUser.rol;
+
+        // Verifica el rol y redirige según corresponda
+        if (rol === 'a' && currentRoute === 'inicioadmin') {
+          return true;
+        } else if (rol === 'u' && currentRoute === 'start') {
+          return true;
+        } else {
+          console.log('Acceso denegado. Redirigiendo a login...');
+          router.navigate(['/login']);
+          return false;
+        }
+      } catch (error) {
+        console.error('Error al parsear el token:', error);
+        router.navigate(['/login']);
+        return false;
+      }
+    } else {
       console.log('Usuario no autenticado. Redirigiendo a login...');
       router.navigate(['/login']);
       return false;
     }
-
-    if (route.routeConfig?.path === 'start') {
-      return true;
-    }
-
-    console.log('Acceso denegado. Redirigiendo a login...');
-    router.navigate(['/login']);
-    return false;
   } else {
     console.log('El entorno no es el navegador. Acceso denegado.');
     return false;
   }
 };
-

@@ -9,9 +9,8 @@ import { AdminComponent } from './views/admin/admin.component';
 import { AdminhomeComponent } from './views/adminhome/adminhome.component';
 
 export const routes: Routes = [
-    { path: 'login', component: LoingComponent},
-    { path: 'crearcuenta', component: CrearcuentaComponent},
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+    
     { 
         path: 'start',
         component: StartComponent,
@@ -29,5 +28,9 @@ export const routes: Routes = [
         children: [
             {path: 'admin', component: AdminComponent}
         ]
-    }
+    },
+    { path: 'crearcuenta', component: CrearcuentaComponent },
+    { path: 'login', component: LoingComponent },
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
+// Me esta molesatndo la redireccion en la pantalla de logi

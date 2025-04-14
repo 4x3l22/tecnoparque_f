@@ -10,7 +10,7 @@ import { IProyectos } from '../interfaces/IProyectos';
 export class AdminService {
 
   private url = "http://127.0.0.1:5000";
-  // private url = "https://tecnoparque-back-f7ch.onrender.com/api/proceso/";
+  // private url = "https://tecnoparqueback-production.up.railway.app/api/proceso/";
 
   constructor(private http: HttpClient) { }
 

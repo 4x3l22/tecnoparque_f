@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IUsuario } from '../../service/interfaces/IUsuario';
 import { AdminService } from '../../service/admin/admin.service';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,7 @@ import { IProyectos } from '../../service/interfaces/IProyectos';
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit{
 
   usuarios: IUsuario[] = [];
   proyectos: IProyectos[] = [];
@@ -57,53 +57,51 @@ export class AdminComponent {
       this.imagenProyecto = event.target.files[0];
     }
   }
-
-  registrarProyecto(): void {
-    console.log("Nombre Proyecto:", this.nombreProyecto);
-    console.log("Descripción:", this.descripcion);
-    console.log("Ruta:", this.ruta);
-    console.log("Usuario ID:", this.usuarioId);
-    console.log("Imagen:", this.imagenProyecto);
   
+  registrarProyecto(): void {
     if (!this.nombreProyecto.trim() || !this.descripcion.trim() || !this.ruta.trim() || !this.usuarioId.trim() || !this.imagenProyecto) {
       alert('Todos los campos son obligatorios');
       return;
     }
   
-    const formData = new FormData();
-    formData.append('nombre_proyecto', this.nombreProyecto);
-    formData.append('descripcion', this.descripcion);
-    formData.append('ruta', this.ruta);
-    formData.append('id_usuario', this.usuarioId);
-    formData.append('img', this.imagenProyecto);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const imagenBase64 = reader.result as string;
   
-    this.adminService.post(formData).subscribe(
-      (response) => {
-        alert('Proyecto registrado con éxito');
-        console.log('Respuesta:', response);
+      const proyectoData = {
+        nombre_proyecto: this.nombreProyecto,
+        descripcion: this.descripcion,
+        ruta: this.ruta,
+        id_usuario: this.usuarioId,
+        img_base64: imagenBase64
+      };
   
-        // Cerrar el modal
-        let modal = document.getElementById('proyectoModal');
-        if (modal) {
-          // Ensure Bootstrap is globally available
-          const modalInstance = (window as any).bootstrap.Modal.getInstance(modal);
-          modalInstance?.hide();
+      this.adminService.post(proyectoData).subscribe(
+        (response) => {
+          alert('Proyecto registrado con éxito');
+          console.log('Respuesta:', response);
+  
+          const modal = document.getElementById('proyectoModal');
+          if (modal) {
+            const modalInstance = (window as any).bootstrap.Modal.getInstance(modal);
+            modalInstance?.hide();
+          }
+  
+          this.nombreProyecto = '';
+          this.descripcion = '';
+          this.ruta = '';
+          this.usuarioId = '';
+          this.imagenProyecto = null;
+  
+          this.listarProyectos();
+        },
+        (error) => {
+          console.error('Error al registrar el proyecto', error);
         }
+      );
+    };
   
-        // Limpiar formulario
-        this.nombreProyecto = '';
-        this.descripcion = '';
-        this.ruta = '';
-        this.usuarioId = '';
-        this.imagenProyecto = null;
-  
-        // Recargar la lista de proyectos
-        this.listarProyectos();
-      },
-      (error) => {
-        console.error('Error al registrar el proyecto', error);
-      }
-    );
+    reader.readAsDataURL(this.imagenProyecto);
   }  
 
   clearUser() {
