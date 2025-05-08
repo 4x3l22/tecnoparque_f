@@ -33,4 +33,3 @@ export const routes: Routes = [
     { path: 'login', component: LoingComponent },
     { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
-// Me esta molesatndo la redireccion en la pantalla de logi
